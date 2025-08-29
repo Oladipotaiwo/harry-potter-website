@@ -87,10 +87,10 @@ export default function HomePage() {
               >
                 {type === "characters" && (
                   <>
-                    <h2 className="text-lg font-semibold text-gray-700">
+                    <h2 className="text-lg font-semibold text-gray-900">
                       {item.fullName || item.name}
                     </h2>
-                    <p className="text-gray-600">
+                    <p className="text-gray-900">
                       House: {item.hogwartsHouse || "Unknown"}
                     </p>
                     {item.image && (
@@ -105,8 +105,8 @@ export default function HomePage() {
 
                 {type === "books" && (
                   <>
-                    <h2 className="text-lg font-semibold text-gray-400">{item.title}</h2>
-                    <p className="text-gray-600">
+                    <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
+                    <p className="text-gray-900">
                       Release: {item.releaseDate}
                     </p>
                   </>
@@ -114,8 +114,8 @@ export default function HomePage() {
 
                 {type === "spells" && (
                   <>
-                    <h2 className="text-lg font-semibold text-gray-400">{item.spell}</h2>
-                    <p className="text-gray-600">Use: {item.use}</p>
+                    <h2 className="text-lg font-semibold text-gray-900">{item.spell}</h2>
+                    <p className="text-gray-900">Use: {item.use}</p>
                   </>
                 )}
               </div>
