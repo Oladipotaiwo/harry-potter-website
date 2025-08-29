@@ -2,9 +2,18 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
+    const pathname = usePathname();
+
+    const links = [
+        { href: "/", label: "Home" },
+        { href: "/characters", label: "Characters" },
+        { href: "/books", label: "Books" },
+        { href: "/spells", label: "Spells" },
+    ];
 
     return (
         <nav className="bg-purple-700 text-white p-4 shadow-md">
@@ -14,18 +23,21 @@ export default function Navbar() {
 
                 {/* Desktop Links */}
                 <div className="hidden sm:flex gap-8 font-semibold">
-                    <Link href="/" className="hover:underline">
-                        Home
-                    </Link>
-                    <Link href="/characters" className="hover:underline">
-                        Characters
-                    </Link>
-                    <Link href="/books" className="hover:underline">
-                        Books
-                    </Link>
-                    <Link href="/spells" className="hover:underline">
-                        Spells
-                    </Link>
+                    {links.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                className={`relative pb-1 ${isActive
+                                    ? "after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-white text-yellow-300"
+                                    : "hover:underline"
+                                    }`}
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* Hamburger Icon */}
@@ -37,18 +49,22 @@ export default function Navbar() {
             {/* Mobile Menu */}
             {isOpen && (
                 <div className="sm:hidden mt-4 flex flex-col gap-4 font-semibold text-center">
-                    <Link href="/" className="hover:underline" onClick={() => setIsOpen(false)}>
-                        Home
-                    </Link>
-                    <Link href="/characters" className="hover:underline" onClick={() => setIsOpen(false)}>
-                        Characters
-                    </Link>
-                    <Link href="/books" className="hover:underline" onClick={() => setIsOpen(false)}>
-                        Books
-                    </Link>
-                    <Link href="/spells" className="hover:underline" onClick={() => setIsOpen(false)}>
-                        Spells
-                    </Link>
+                    {links.map((link) => {
+                        const isActive = pathname === link.href;
+                        return (
+                            <Link
+                                key={link.href}
+                                href={link.href}
+                                onClick={() => setIsOpen(false)}
+                                className={`relative pb-1 ${isActive
+                                    ? "after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full  text-yellow-300"
+                                    : "hover:underline"
+                                    }`}
+                            >
+                                {link.label}
+                            </Link>
+                        );
+                    })}
                 </div>
             )}
         </nav>

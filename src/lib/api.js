@@ -1,17 +1,20 @@
 import axios from "axios";
 
-const BASE_URL = "https://potterapi-fedeperin.vercel.app";
-const LANG = "en";
+const BASE_URL = "https://potterapi-fedeperin.vercel.app/en";
 
-// Get all characters
-export async function getCharacters() {
-    const res = await axios.get(`${BASE_URL}/${LANG}/characters`);
-    return res.data;
-}
+const endpoints = {
+    characters: "characters",
+    spells: "spells",
+    books: "books",
+};
 
-// Search characters by name
 export async function searchData(type, query) {
-    const res = await axios.get(`${BASE_URL}/${type}`);
+    const endpoint = endpoints[type];
+    if (!endpoint) {
+        throw new Error(`No API endpoint for ${type}`);
+    }
+
+    const res = await axios.get(`${BASE_URL}/${endpoint}`);
     return res.data.filter((item) =>
         JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
     );
