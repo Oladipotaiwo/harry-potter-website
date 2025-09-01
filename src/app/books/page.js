@@ -15,7 +15,7 @@ export default function BooksPage() {
 
     return (
         <>
-            <h1 className="text-3xl font-bold text-purple-700 mb-6">Books</h1>
+            <h1 className="text-3xl font-bold text-yellow-400 mb-6">Books</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 {books.map((book, i) => (
                     <div key={i} className="bg-white shadow rounded-xl p-4">

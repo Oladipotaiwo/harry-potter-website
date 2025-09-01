@@ -8,11 +8,22 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="bg-gray-100 text-gray-800">
+    <html lang="en" className="dark">
+      <body
+        className="min-h-screen text-gray-800"
+        style={{
+          backgroundImage: "url('/harry-images/harrypotter.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         <Navbar />
-        <main className="max-w-6xl mx-auto p-6">{children}</main>
+        <main className="max-w-6xl mx-auto p-6  rounded-xl shadow-lg">
+          {children}
+        </main>
       </body>
+
     </html>
   );
 }

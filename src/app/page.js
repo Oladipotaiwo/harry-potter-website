@@ -26,7 +26,23 @@ export default function HomePage() {
     setLoading(true);
     try {
       const data = await searchData(type, query);
-      setResults(data);
+
+      // exact matches
+      const exact = data.filter(
+        (item) =>
+          (item.fullName || item.name || "").toLowerCase() ===
+          query.toLowerCase()
+      );
+
+      // partial matches
+      const partial = data.filter((item) =>
+        (item.fullName || item.name || "")
+          .toLowerCase()
+          .includes(query.toLowerCase())
+      );
+
+      // combine exact first + unique partials
+      setResults([...exact, ...partial.filter((p) => !exact.includes(p))]);
     } catch (err) {
       console.error("Error searching:", err);
     } finally {
@@ -36,7 +52,7 @@ export default function HomePage() {
 
   return (
     <main className="max-w-5xl mx-auto p-8">
-      <h1 className="text-3xl font-bold text-purple-700 mb-6">
+      <h1 className="text-3xl font-bold text-yellow-400 mb-6">
         Search Harry Potter
       </h1>
 
@@ -46,7 +62,9 @@ export default function HomePage() {
           <button
             key={t}
             onClick={() => setType(t)}
-            className={`px-4 py-2 rounded-xl ${type === t ? "bg-purple-600 text-white" : "bg-gray-200"
+            className={`px-4 py-2 rounded-xl ${type === t
+              ? "bg-purple-600 text-yellow-400"
+              : "bg-gray-200"
               }`}
           >
             {t.charAt(0).toUpperCase() + t.slice(1)}
@@ -61,11 +79,11 @@ export default function HomePage() {
           placeholder={`Search ${type}...`}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 border rounded-xl p-1 focus:outline-none focus:ring-2 focus:ring-purple-500"
+          className="flex-1 border rounded-xl p-1 text-gray-950 focus:outline-yellow-400 focus:ring-2 focus:ring-yellow-400"
         />
         <button
           type="submit"
-          className="bg-purple-600 text-white px-4 py-2 rounded-xl hover:bg-purple-700"
+          className="bg-purple-600 text-yellow-400 px-4 py-2 rounded-xl hover:bg-purple-700"
         >
           Search
         </button>
@@ -73,7 +91,7 @@ export default function HomePage() {
 
       {loading && <p className="text-center">Loading {type}...</p>}
 
-      {/* Search results (only show if query is entered) */}
+      {/* Search results */}
       {results.length > 0 && (
         <>
           <h2 className="text-2xl font-bold text-purple-700 mb-4">
@@ -105,7 +123,9 @@ export default function HomePage() {
 
                 {type === "books" && (
                   <>
-                    <h2 className="text-lg font-semibold text-gray-900">{item.title}</h2>
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      {item.title}
+                    </h2>
                     <p className="text-gray-900">
                       Release: {item.releaseDate}
                     </p>
@@ -114,7 +134,9 @@ export default function HomePage() {
 
                 {type === "spells" && (
                   <>
-                    <h2 className="text-lg font-semibold text-gray-900">{item.spell}</h2>
+                    <h2 className="text-lg font-semibold text-gray-900">
+                      {item.spell}
+                    </h2>
                     <p className="text-gray-900">Use: {item.use}</p>
                   </>
                 )}
@@ -124,8 +146,8 @@ export default function HomePage() {
         </>
       )}
 
-      {/* Always show characters under the search */}
-      <h2 className="text-2xl font-bold text-purple-700 mb-4">
+      {/* Featured Characters */}
+      <h2 className="text-2xl font-bold text-yellow-400 mb-4">
         Featured Characters
       </h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
