@@ -16,7 +16,7 @@ export default function CharactersPage() {
     return (
         <>
             <h1 className="text-3xl font-bold text-yellow-400 mb-6">Characters</h1>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                 {characters.map((char, i) => (
                     <div key={i} className="bg-white shadow rounded-xl p-4">
                         <h2 className="font-semibold">{char.fullName || char.name}</h2>
@@ -25,7 +25,7 @@ export default function CharactersPage() {
                             <img
                                 src={char.image}
                                 alt={char.fullName}
-                                className="mt-2 rounded-lg h-70 w-full object-cover"
+                                className="mt-2 rounded-lg h-40 w-full object-cover"
                             />
                         )}
                     </div>

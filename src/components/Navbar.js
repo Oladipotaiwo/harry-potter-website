@@ -56,7 +56,7 @@ export default function Navbar() {
                                 href={link.href}
                                 className={`relative pb-1 ${isActive
                                     ? "after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-purple-300 text-yellow-300"
-                                    : "hover:underline"
+                                    : "hover:after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-purple-300"
                                     }`}
                             >
                                 {link.label}

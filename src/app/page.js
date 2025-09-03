@@ -10,6 +10,12 @@ export default function HomePage() {
   const [loading, setLoading] = useState(false);
   const [characters, setCharacters] = useState([]);
 
+  useEffect(() => {
+    if (query.trim() === "") {
+      setResults([]); //  clear results if search box is empty
+    }
+  }, [query]);
+
   // Fetch characters for homepage
   useEffect(() => {
     async function fetchData() {
@@ -79,7 +85,7 @@ export default function HomePage() {
           placeholder={`Search ${type}...`}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="flex-1 border rounded-xl p-1 text-gray-950 focus:outline-yellow-400 focus:ring-2 focus:ring-yellow-400"
+          className=" border rounded-xl p-1 text-white focus:outline-yellow-400 focus:ring-2 focus:ring-yellow-400"
         />
         <button
           type="submit"
@@ -92,65 +98,69 @@ export default function HomePage() {
       {loading && <p className="text-center">Loading {type}...</p>}
 
       {/* Search results */}
-      {results.length > 0 && (
-        <>
-          <h2 className="text-2xl font-bold text-purple-700 mb-4">
-            Search Results
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
-            {results.map((item, idx) => (
-              <div
-                key={idx}
-                className="cursor-pointer bg-white rounded-2xl shadow p-4 hover:shadow-lg transition"
-              >
-                {type === "characters" && (
-                  <>
-                    <h2 className="text-lg font-semibold text-gray-900">
-                      {item.fullName || item.name}
-                    </h2>
-                    <p className="text-gray-900">
-                      House: {item.hogwartsHouse || "Unknown"}
-                    </p>
-                    {item.image && (
-                      <img
-                        src={item.image}
-                        alt={item.fullName || item.name}
-                        className="mt-3 rounded-xl h-40 w-full object-cover"
-                      />
-                    )}
-                  </>
-                )}
+      {query.trim() !== "" && (
+        results.length > 0 ? (
+          <>
+            <h2 className="text-2xl font-bold text-purple-700 mb-4">
+              Search Results
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 mb-10">
+              {results.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="cursor-pointer bg-white rounded-2xl shadow p-4 hover:shadow-lg transition"
+                >
+                  {type === "characters" && (
+                    <>
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        {item.fullName || item.name}
+                      </h2>
+                      <p className="text-gray-900">
+                        House: {item.hogwartsHouse || "Unknown"}
+                      </p>
+                      {item.image && (
+                        <img
+                          src={item.image}
+                          alt={item.fullName || item.name}
+                          className="mt-3 rounded-xl h-40 w-full object-cover"
+                        />
+                      )}
+                    </>
+                  )}
 
-                {type === "books" && (
-                  <>
-                    <h2 className="text-lg font-semibold text-gray-900">
-                      {item.title}
-                    </h2>
-                    <p className="text-gray-900">
-                      Release: {item.releaseDate}
-                    </p>
-                  </>
-                )}
+                  {type === "books" && (
+                    <>
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        {item.title}
+                      </h2>
+                      <p className="text-gray-900">
+                        Release: {item.releaseDate}
+                      </p>
+                    </>
+                  )}
 
-                {type === "spells" && (
-                  <>
-                    <h2 className="text-lg font-semibold text-gray-900">
-                      {item.spell}
-                    </h2>
-                    <p className="text-gray-900">Use: {item.use}</p>
-                  </>
-                )}
-              </div>
-            ))}
-          </div>
-        </>
+                  {type === "spells" && (
+                    <>
+                      <h2 className="text-lg font-semibold text-gray-900">
+                        {item.spell}
+                      </h2>
+                      <p className="text-gray-900">Use: {item.use}</p>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p className="text-center text-red-500 font-semibold">No {type} found.</p>
+        )
       )}
 
       {/* Featured Characters */}
       <h2 className="text-2xl font-bold text-yellow-400 mb-4">
         Featured Characters
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {characters.map((char, i) => (
           <div
             key={i}
@@ -162,7 +172,7 @@ export default function HomePage() {
               <img
                 src={char.image}
                 alt={char.fullName}
-                className="mt-2 rounded-lg h-70 w-full object-cover"
+                className="mt-2 rounded-lg h-40 w-full object-cover"
               />
             )}
           </div>
